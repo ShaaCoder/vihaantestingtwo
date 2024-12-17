@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import AdminLayout from '@/components/AdminLayout';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import AdminLayout from "@/components/AdminLayout";
 
 export default function Students() {
     const [students, setStudents] = useState([]);
@@ -16,7 +16,7 @@ export default function Students() {
         courses: [],
     });
     const [editingStudent, setEditingStudent] = useState(null);
-    const [showForm, setShowForm] = useState(false); // State to show or hide the form
+    const [showForm, setShowForm] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -70,9 +70,7 @@ export default function Students() {
 
         fetch(url, {
             method,
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData),
         })
             .then((response) => response.json())
@@ -86,19 +84,7 @@ export default function Students() {
                         return [...prevState, data];
                     }
                 });
-                setFormData({
-                    fullname: "",
-                    class: "",
-                    mobileNumber: "",
-                    enrollmentNumber: "",
-                    referenceNumber: "",
-                    emailId: "",
-                    balance: "",
-                    address: "",
-                    courses: [],
-                });
-                setEditingStudent(null);
-                setShowForm(false); // Hide the form after submission
+                resetForm();
             });
     };
 
@@ -115,13 +101,11 @@ export default function Students() {
             courses: student.courses || [],
         });
         setEditingStudent(student);
-        setShowForm(true); // Show form for editing
+        setShowForm(true);
     };
 
     const handleDelete = (studentId) => {
-        fetch(`/api/students/${studentId}`, {
-            method: "DELETE",
-        }).then(() => {
+        fetch(`/api/students/${studentId}`, { method: "DELETE" }).then(() => {
             setStudents((prevState) =>
                 prevState.filter((student) => student._id !== studentId)
             );
@@ -133,8 +117,11 @@ export default function Students() {
     };
 
     const handleAddStudentClick = () => {
-        setShowForm(true); // Show form for adding a new student
-        setEditingStudent(null); // Ensure it's not in edit mode
+        resetForm();
+        setShowForm(true);
+    };
+
+    const resetForm = () => {
         setFormData({
             fullname: "",
             class: "",
@@ -146,6 +133,8 @@ export default function Students() {
             address: "",
             courses: [],
         });
+        setEditingStudent(null);
+        setShowForm(false);
     };
 
     return (
@@ -164,131 +153,50 @@ export default function Students() {
 
             {/* Conditionally render the form */}
             {showForm && (
-                <form onSubmit={handleSubmit} className='text-black'>
+                <form onSubmit={handleSubmit} className="text-black mb-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {/* Full Name */}
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium">Full Name</label>
-                            <input
-                                type="text"
-                                name="fullname"
-                                value={formData.fullname}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border rounded-md"
-                                required
-                            />
-                        </div>
-
-                        {/* Class */}
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium">Class</label>
-                            <input
-                                type="text"
-                                name="class"
-                                value={formData.class}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border rounded-md"
-                                required
-                            />
-                        </div>
-
-                        {/* Mobile Number */}
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium">Mobile Number</label>
-                            <input
-                                type="text"
-                                name="mobileNumber"
-                                value={formData.mobileNumber}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border rounded-md"
-                                required
-                            />
-                        </div>
-
-                        {/* Enrollment Number */}
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium">Enrollment Number</label>
-                            <input
-                                type="text"
-                                name="enrollmentNumber"
-                                value={formData.enrollmentNumber}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border rounded-md"
-                                required
-                            />
-                        </div>
-
-                        {/* Reference Number */}
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium">Reference Number</label>
-                            <input
-                                type="text"
-                                name="referenceNumber"
-                                value={formData.referenceNumber}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border rounded-md"
-                                required
-                            />
-                        </div>
-
-                        {/* Email */}
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium">Email</label>
-                            <input
-                                type="email"
-                                name="emailId"
-                                value={formData.emailId}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border rounded-md"
-                                required
-                            />
-                        </div>
-
-                        {/* Balance */}
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium">Balance</label>
-                            <input
-                                type="number"
-                                name="balance"
-                                value={formData.balance}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border rounded-md"
-                                required
-                            />
-                        </div>
-
-                        {/* Address */}
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium">Address</label>
-                            <textarea
-                                name="address"
-                                value={formData.address}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border rounded-md"
-                                required
-                            />
-                        </div>
-
+                        {[
+                            ["Full Name", "fullname"],
+                            ["Class", "class"],
+                            ["Mobile Number", "mobileNumber"],
+                            ["Enrollment Number", "enrollmentNumber"],
+                            ["Reference Number", "referenceNumber"],
+                            ["Email", "emailId"],
+                            ["Balance", "balance"],
+                            ["Address", "address"],
+                        ].map(([label, name]) => (
+                            <div key={name} className="mb-4">
+                                <label className="block text-sm font-medium">{label}</label>
+                                <input
+                                    type={name === "balance" ? "number" : "text"}
+                                    name={name}
+                                    value={formData[name]}
+                                    onChange={handleChange}
+                                    className="w-full px-4 py-2 border rounded-md"
+                                    required
+                                />
+                            </div>
+                        ))}
                         {/* Courses */}
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium">Courses</label>
+                        <div className="col-span-2 mb-4">
+                            <label className="block text-sm font-medium mb-2">Courses</label>
                             {formData.courses.map((course, index) => (
                                 <div key={index} className="flex gap-2 mb-2">
                                     <input
                                         type="text"
                                         name="courseCode"
+                                        placeholder="Course Code"
                                         value={course.courseCode}
                                         onChange={(e) => handleCourseChange(index, e)}
-                                        placeholder="Course Code"
                                         className="w-1/2 px-4 py-2 border rounded-md"
                                         required
                                     />
                                     <input
                                         type="text"
                                         name="subject"
+                                        placeholder="Subject"
                                         value={course.subject}
                                         onChange={(e) => handleCourseChange(index, e)}
-                                        placeholder="Subject"
                                         className="w-1/2 px-4 py-2 border rounded-md"
                                         required
                                     />
@@ -323,47 +231,55 @@ export default function Students() {
             )}
 
             {/* Table for displaying the list of students */}
-            <table className="min-w-full bg-white border border-black-200 text-black">
-    <thead className="bg-gray-100">
-        <tr>
-            <th className="py-3 px-6 text-left font-semibold text-gray-700">Full Name</th>
-            <th className="py-3 px-6 text-left font-semibold text-gray-700">Class</th>
-            <th className="py-3 px-6 text-left font-semibold text-gray-700">Mobile Number</th>
-            <th className="py-3 px-6 text-left font-semibold text-gray-700">Email</th>
-            <th className="py-3 px-6 text-left font-semibold text-gray-700">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {students.map((student) => (
-            <tr key={student._id} className="hover:bg-gray-50">
-                <td className="py-4 px-6">{student.fullname}</td>
-                <td className="py-4 px-6">{student.class}</td>
-                <td className="py-4 px-6">{student.mobileNumber}</td>
-                <td className="py-4 px-6">{student.emailId}</td>
-                <td className="py-4 px-6">
-                    <button
-                        onClick={() => handleEdit(student)}
-                        className="text-blue-500 hover:text-blue-700 mr-3"
+            <div className="overflow-x-auto px-2 sm:px-4">
+    <table className="w-full bg-white border border-gray-200 text-black text-sm">
+        <thead className="bg-gray-100">
+            <tr>
+                {["Full Name", "Class", "Mobile Number", "Email", "Actions"].map((header) => (
+                    <th
+                        key={header}
+                        className="py-3 px-4 text-left font-semibold text-gray-700"
                     >
-                        Edit
-                    </button>
-                    <button
-                        onClick={() => handleDelete(student._id)}
-                        className="text-red-500 hover:text-red-700 mr-3"
-                    >
-                        Delete
-                    </button>
-                    <button
-                        onClick={() => handleView(student._id)}
-                        className="text-green-500 hover:text-green-700"
-                    >
-                        View
-                    </button>
-                </td>
+                        {header}
+                    </th>
+                ))}
             </tr>
-        ))}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {students.map((student) => (
+                <tr key={student._id} className="hover:bg-gray-50 border-b">
+                    <td className="py-2 px-4 whitespace-nowrap">{student.fullname}</td>
+                    <td className="py-2 px-4 whitespace-nowrap">{student.class}</td>
+                    <td className="py-2 px-4 whitespace-nowrap">{student.mobileNumber}</td>
+                    <td className="py-2 px-4 whitespace-nowrap">{student.emailId}</td>
+                    <td className="py-2 px-4 whitespace-nowrap">
+                        <div className="flex flex-wrap gap-2">
+                            <button
+                                onClick={() => handleEdit(student)}
+                                className="text-blue-500 hover:text-blue-700"
+                            >
+                                Edit
+                            </button>
+                            <button
+                                onClick={() => handleDelete(student._id)}
+                                className="text-red-500 hover:text-red-700"
+                            >
+                                Delete
+                            </button>
+                            <button
+                                onClick={() => handleView(student._id)}
+                                className="text-green-500 hover:text-green-700"
+                            >
+                                View
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            ))}
+        </tbody>
+    </table>
+</div>
+
 
         </AdminLayout>
     );
