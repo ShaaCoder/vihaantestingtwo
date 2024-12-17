@@ -153,7 +153,7 @@ export default function Students() {
 
             {/* Conditionally render the form */}
             {showForm && (
-                <form onSubmit={handleSubmit} className="text-black mb-6">
+                <form onSubmit={handleSubmit} className="text-black mb-6 ">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {[
                             ["Full Name", "fullname"],
