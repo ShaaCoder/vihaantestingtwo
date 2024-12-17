@@ -153,18 +153,9 @@ export default function Students() {
 
             {/* Conditionally render the form */}
             {showForm && (
-                <form onSubmit={handleSubmit} className="text-black mb-6 ">
+                <form onSubmit={handleSubmit} className="text-black mb-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {[
-                            ["Full Name", "fullname"],
-                            ["Class", "class"],
-                            ["Mobile Number", "mobileNumber"],
-                            ["Enrollment Number", "enrollmentNumber"],
-                            ["Reference Number", "referenceNumber"],
-                            ["Email", "emailId"],
-                            ["Balance", "balance"],
-                            ["Address", "address"],
-                        ].map(([label, name]) => (
+                        {[["Full Name", "fullname"], ["Class", "class"], ["Mobile Number", "mobileNumber"], ["Enrollment Number", "enrollmentNumber"], ["Reference Number", "referenceNumber"], ["Email", "emailId"], ["Balance", "balance"], ["Address", "address"]].map(([label, name]) => (
                             <div key={name} className="mb-4">
                                 <label className="block text-sm font-medium">{label}</label>
                                 <input
@@ -177,6 +168,7 @@ export default function Students() {
                                 />
                             </div>
                         ))}
+                        
                         {/* Courses */}
                         <div className="col-span-2 mb-4">
                             <label className="block text-sm font-medium mb-2">Courses</label>
@@ -188,7 +180,7 @@ export default function Students() {
                                         placeholder="Course Code"
                                         value={course.courseCode}
                                         onChange={(e) => handleCourseChange(index, e)}
-                                        className="w-1/2 px-4 py-2 border rounded-md"
+                                        className="w-full sm:w-1/2 px-4 py-2 border rounded-md"
                                         required
                                     />
                                     <input
@@ -197,7 +189,7 @@ export default function Students() {
                                         placeholder="Subject"
                                         value={course.subject}
                                         onChange={(e) => handleCourseChange(index, e)}
-                                        className="w-1/2 px-4 py-2 border rounded-md"
+                                        className="w-full sm:w-1/2 px-4 py-2 border rounded-md"
                                         required
                                     />
                                     <button
@@ -232,54 +224,53 @@ export default function Students() {
 
             {/* Table for displaying the list of students */}
             <div className="overflow-x-auto px-2 sm:px-4">
-    <table className="w-full bg-white border border-gray-200 text-black text-sm">
-        <thead className="bg-gray-100">
-            <tr>
-                {["Full Name", "Class", "Mobile Number", "Email", "Actions"].map((header) => (
-                    <th
-                        key={header}
-                        className="py-3 px-4 text-left font-semibold text-gray-700"
-                    >
-                        {header}
-                    </th>
-                ))}
-            </tr>
-        </thead>
-        <tbody>
-            {students.map((student) => (
-                <tr key={student._id} className="hover:bg-gray-50 border-b">
-                    <td className="py-2 px-4 whitespace-nowrap">{student.fullname}</td>
-                    <td className="py-2 px-4 whitespace-nowrap">{student.class}</td>
-                    <td className="py-2 px-4 whitespace-nowrap">{student.mobileNumber}</td>
-                    <td className="py-2 px-4 whitespace-nowrap">{student.emailId}</td>
-                    <td className="py-2 px-4 whitespace-nowrap">
-                        <div className="flex flex-wrap gap-2">
-                            <button
-                                onClick={() => handleEdit(student)}
-                                className="text-blue-500 hover:text-blue-700"
-                            >
-                                Edit
-                            </button>
-                            <button
-                                onClick={() => handleDelete(student._id)}
-                                className="text-red-500 hover:text-red-700"
-                            >
-                                Delete
-                            </button>
-                            <button
-                                onClick={() => handleView(student._id)}
-                                className="text-green-500 hover:text-green-700"
-                            >
-                                View
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            ))}
-        </tbody>
-    </table>
+  <table className="min-w-full bg-slate-700 border border-gray-200 text-white text-sm">
+    <thead className="bg-gray-100">
+      <tr>
+        {["Full Name", "Class", "Mobile Number", "Email", "Actions"].map((header) => (
+          <th
+            key={header}
+            className="py-3 px-4 text-left font-semibold text-gray-700"
+          >
+            {header}
+          </th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {students.map((student) => (
+        <tr key={student._id} className="hover:bg-gray-50 border-b">
+          <td className="py-2 px-4 whitespace-nowrap">{student.fullname}</td>
+          <td className="py-2 px-4 whitespace-nowrap">{student.class}</td>
+          <td className="py-2 px-4 whitespace-nowrap">{student.mobileNumber}</td>
+          <td className="py-2 px-4 whitespace-nowrap">{student.emailId}</td>
+          <td className="py-2 px-4 whitespace-nowrap">
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => handleEdit(student)}
+                className="text-blue-500 hover:text-blue-700"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => handleDelete(student._id)}
+                className="text-red-500 hover:text-red-700"
+              >
+                Delete
+              </button>
+              <button
+                onClick={() => handleView(student._id)}
+                className="text-green-500 hover:text-green-700"
+              >
+                View
+              </button>
+            </div>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
 </div>
-
 
         </AdminLayout>
     );
