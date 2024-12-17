@@ -9,7 +9,7 @@ export default function AdminLayout({ children }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     if (status === "loading") {
-        return <div className="flex items-center justify-center min-h-screen ">Loading...</div>;
+        return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
     }
 
     if (status === "unauthenticated") {
@@ -27,7 +27,7 @@ export default function AdminLayout({ children }) {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex">
+        <div className="min-h-screen bg-black flex overflow-hidden">
             {/* Sidebar */}
             <aside
                 className={`fixed inset-y-0 left-0 z-30 w-64 bg-blue-900 text-white p-4 transform ${
@@ -94,7 +94,7 @@ export default function AdminLayout({ children }) {
             )}
 
             {/* Main Content */}
-            <main className="flex-1 lg:ml-64 p-6">
+            <main className="flex-1 lg:ml-64 p-6 overflow-auto">
                 <header className="bg-white p-4 rounded shadow mb-6">
                     <h1 className="text-2xl font-bold">
                         Welcome, {session?.user?.name || "Admin"}!
