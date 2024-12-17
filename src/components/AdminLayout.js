@@ -9,7 +9,7 @@ export default function AdminLayout({ children }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     if (status === "loading") {
-        return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+        return <div className="flex items-center justify-center min-h-screen ">Loading...</div>;
     }
 
     if (status === "unauthenticated") {
