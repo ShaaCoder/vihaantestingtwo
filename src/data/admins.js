@@ -6,6 +6,6 @@ export const admins = [
     },
     {
         username: "vikas",
-        password: "securepassword456",
+        password: "prachi",
     },
 ];
